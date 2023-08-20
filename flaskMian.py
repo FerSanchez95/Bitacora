@@ -35,7 +35,8 @@ def close_connection(exception):
 def init_db():
     with app.app_context():
         db = get_db()
-        with app.open_resource('dbLogSchema.sql') as f:
+        #Cargo el esquema de la base de datos.
+        with app.open_resource('dbLogSchema.sql') as f: 
             db.executescript(f.read().decode('utf8'))
         db.commit()
     return db
@@ -47,7 +48,7 @@ def exist_db(filename_path):
     if not os.path.isfile(filename_path):
         recently_created_db = init_db()
         print('se activó init_db')
-        return recently_created_db
+        return recently_created_db  
     else: 
         already_existent_db = get_db(filename_path)
         print('se activo get_db')
@@ -56,6 +57,7 @@ def exist_db(filename_path):
               
 # Formato de mensaje y guardado en DB.
 def custom_list(message):
+
     print(filename)
     transfer_db = exist_db(filename)
     time_now = datetime.now()
@@ -97,15 +99,9 @@ def search():
         Param_F_f = request.form['fecha_hasta']
         Param_H_i = request.form['hora_desde']
         Param_H_f = request.form['hora_hasta']
-        #data_list = [Param_F_i, Param_F_f, Param_H_i, Param_H_f]
         data_list = [Param_H_f, Param_H_i, Param_F_f, Param_F_i]
 
-        #print(f'\n_ Los parámetros obtenidos son:\n {Param_F_i}, {Param_F_f}, {Param_H_i}, {Param_H_f}\n') #for debug
-        
-        # busqueda en BD  normal =============================
-        #sql_command = 'SELECT * FROM log WHERE Fecha BETWEEN ? AND ? AND Hora >= ?' # Funciona.
-        #select_from_db = cursor_db.execute(sql_command, [Param_F_i, Param_F_f, Param_H_i])
-        
+        #print(f'\n_ Los parámetros obtenidos son:\n {Param_F_i}, {Param_F_f}, {Param_H_i}, {Param_H_f}\n') #for debug        
         # Busqueda en BD utilizando el módulo de busqueda code_search_tes.py ===
         returned_list, sql_query = cs(data_list) # Uso el generador de código del módulo. Devuelve la lista de parámetros y la consulta.
         select_from_db = cursor_db.execute(sql_query, returned_list) # Ejecuto la sentencia SQL
@@ -122,6 +118,7 @@ def search():
 #   -OPEN-
 @app.route("/open", methods=['POST', 'GET'])
 def open():
+
     global filename
     filename = filedialog.askopenfilename()
     print(filename)
@@ -130,8 +127,8 @@ def open():
 #   -SAVE-
 @app.route("/save", methods=['GET'])
 def save():
-    #filedialog.asksaveasfilename()
-    pass
+    filedialog.asksaveasfilename()
+    return redirect(url_for('index'))
 # ================================================
 
 if __name__ == '__main__':

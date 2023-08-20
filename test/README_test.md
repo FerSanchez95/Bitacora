@@ -330,7 +330,7 @@ El siguiente ejemplo corresponde al boceto que iría en el código de pruebas:
 
 ## Función de apertura
 
-Para abrir un Archivo DB voy a utilizar losc omandos básicos de Tk. En este caso, a modo de prueba, utilizo la función 'filedialog.askopenfilename' para buscar y abrir el archivo correspondiente.
+Para abrir un Archivo DB voy a utilizar los comandos básicos de Tk. En este caso, a modo de prueba, utilizo la función 'filedialog.askopenfilename' para buscar y abrir el archivo correspondiente.
 Primero importo la librería Tkinter y el método filedialog:
 
     from tkinter import filedialog 
@@ -339,5 +339,34 @@ Luego utilizo ese método junto con una de sus funciones uniondola a una instanc
 
     open_file = filedialog.askopenfilename()
 
-Esto va a abrir un cuadro de busqueda donde se va mostrar una lista de directorios desde el cual se puede navegar hasta llegar al archivo correspondiente. Como resultado esto devolvera la ruta del archivo seleccionado.
-## Operador morsa __:=__
+Esto va a abrir un cuadro de busqueda donde se va mostrar una lista de directorios desde el cual se puede navegar hasta llegar al archivo correspondiente. Como resultado esto devolvera la ruta del archivo seleccionado. La varible debe ser global para poder ser utilizdo por la función  get_db().
+También hay que cambiar la función exist_db() para que al comprobar la existencia de la base de datos compruebe la misma BD que se cargo.
+
+1. Utilizar la variable 'db_filename' como variable global.
+2. Cambiar el argumento de la función sqlite3.connect() por la variable 'db_filename'.
+3. En el flujo de trabajo para la apertura de la base de datos se inicia en la función 'exist_db', la cual comprueba que la base de datos que se intenta abrir existe y en caso contrario utiliza la función init_db y la crea usando el esquema de base de datos disponible.
+4. En 'exist_db' lo pirmero que se ahce es tomar el directorio de trabajo actual y completa la ruta del archivo con el nombre de la BD.
+5. En el caso de que no exista la base de datos se inicia la función 'init_db' que se encarga de crear la base de datos con el esquema de tablas en uso.
+6. Si la base de datos existe, se llamará a la función 'get_db' la cual utiliza métodos de flask para mantenerla abierta en el contexto de la aplicación. El metodo 'g' se usa como un buffer en el cual se mantiene abierta la base de datos hasta que ya no se utiliza en el contexto de la aplicación.
+7. Para que se pueda abrir la base de datos desde la aplicación y no sea una única BD que se pueda utilizar tengo que pasar como un argumento, a todas las funciones, el nombre o la ruta que devuelve la función 'open'.
+8. Para empezar se cambió el nombre de la varible 'filename' por 'db_filenme'. Se llama a la función 'exist_db' y se le pasa como argumento la variable anterior.
+9. En 'exist_db' le indico que debe recibir un argumento con el nombre 'db_filename'. Reemplazo y completo la variable ruta con el argumento que se paso anteriormente.
+**No es necesario completar la ruta porque la función 'filedialog.askopenfilename()' devuelve la ruta entera.
+Por lo tanto, se nombra al argumente como 'ruta' y se pasa directamente al condicional.
+10. Dentro del condicional se pasa par aambas instacias la variable par aue puedan procesarla. Si se les pasa una ruta entera a ambas funciones, estas ¿Tomarán el archivo al que apunta la ruta o solo funciona si el archivo existe dentro del directorio y solo hay que pasarle el nombre?
+11. Ahora en las funciones 'init_db' y 'get_db' se pasa la ruta como un argumento.
+12. En 'init_db'se cambia el valor pasado a 'open_resource' por el valor del argumento. En 'get_db' se cambia el valor que se pasa a 'sqlite3.connect' por el argumento.
+13. Se realizaron los cambios.
+
+Con estos cambios realizados el programa devuelve un error por __falta de argumento__ en la linea n°94, en la función 'search' cuando se crea la instancia 'db' de la base de datos para su uso dentro de la función. La función 'exist_db' pide un argumento que no se pasa en 'search'.
+Tampoco se muestra la base de datos en la página principal cuando esta se carga.
+
+Tal vez no haga falta una función 'open' que funcione por separa do de la función index. Me refiero a que no necesita estar vinculada a la parte gráfica de la interfaz. Es decir que solo debe devolver la ruta de la base de datos que se quiera abrir y manejar las funciones de apertura.
+
+Devuelve la lista de posisciones de memoria que ocupa, no devuelve el contenido.
+
+Se logro hacer funcionar. se agregaron los argumentos a las funciones para el manejo de las bases de datos. Se modificaron todas las llamadas a dichas funciones. Se agregó 'filename' como variable global en la función 'open'. Cambiar el nombre de la variable por algo más relativo con su funiconaminto.
+
+¿Los nombres de las vairiables globales van en mayúscula por una convención?
+Los nombres de las variables globales se tiene que escribir en minúsculas, si es una abreviación corta se suepde usar CapWords/CamelCase y si son varias palabras se tien que agregar un guíon bajo para separarlas. El caso va a depender siempre de la circunstancia y principalmene de la legibilidad del código.
+Las variables que se escriben con mayúsculas son las CONSTANTES que a diferrencia de las variables globales estas estan pensadas para no ser modificadas a lo laago del código. Al igual que las varaibles pueden usar guíon bajo para separar varias palabras.
