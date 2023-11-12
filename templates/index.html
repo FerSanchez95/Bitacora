@@ -1,0 +1,82 @@
+{% extends './layout.html' %} 
+{% block title %}Bitacora{% endblock %}
+{% block body %} 
+<div class="div_style">
+
+    <header>
+        <nav>
+            <ul class="ul_menu">
+                <li class="li_menu"> <a href="/" class="menu_logo"><img class="menu_img" src="static/icon/libro-abierto.png" alt="Inicio"></a></li>
+                <li class="li_menu"><a href="#search_modal"><img class="menu_img" src="static/icon/MagnifyinGlass.svg" alt="Buscar"></a></li>
+                <li class="li_menu"><a href="/open"><img class="menu_img" src="static/icon/OpenFolder.svg" alt="Abrir"></a></li>
+                <li class="li_menu"><a href="#modal"><img class="menu_img" src="static/icon/Diskette.svg" alt="Guardar"></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div id="modal">
+        <a href="#cerrar"></a>
+        <div id="modalContent">
+          <form action="/create" method="post">
+            <label class="search_msg">Nombre del archivo nuevo:</label>
+            <input name="new_filename" type="text" class="inpuText">
+          </form>
+          <a href="#cerrar">X</a> 
+        </div>
+    </div>
+ 
+    <div id="search_modal">
+        <a href="#cerrar"></a>
+        <div id="modalContent">
+            <form action="/search" method="post">
+                <label class="title_msg">Busqueda</label>
+                <div class="block_DH">
+                    <label class="search_msg">Fecha de busqueda</label>
+                    <label for="date_msg" class="search_label"> Actual/Final:</label>
+                    <input name="fecha_desde" type="date" class="inpuText" placeholder="dd/mm/aaaa">
+                    <label for="date_msg" class="search_label">Inicial:</label>
+                    <input name="fecha_hasta" type="date" class="inpuText" placeholder="dd/mm/aaaa">
+                </div>
+                <div class="block_DH">
+                    <label class="search_msg">Hora de busqueda</label>
+                    <label for="hour_msg" class="search_label">Desde:</label>
+                    <input name="hora_desde" type="time" class="inpuText" placeholder="hh:mm:ss">
+                    <label for="hora_hasta" class="search_label">Hasta:</label>
+                    <input name="hora_hasta" type="time" class="inpuText" placeholder="hh:mm:ss">
+                </div>
+                <input class="submit" type="submit" placeholder="Inicar busqueda">
+            </form>
+            <a href="#cerrar">X</a> 
+        </div>
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div id="alert_modal">
+        <a href="#"></a>
+        {% for message in messages %}
+        <p id="modalContent">
+             {{ message }}
+        </p>
+        {% endfor %}
+        <button type="button"><a href="#"">X</a></button>
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <form class="form-table" action="/" method="post">
+        <label for="log_input" class="output_msg">Comentario:</label><br>
+        <textarea  class="content" autofocus="true" required="true" name="input_ta" rows="10" cols="50" placeholder="Escriba aqui..."></textarea>
+        <br>
+        <button class="submit" type="submit" target="otpt">Guardar Comentario</button>
+    </form> 
+    <form class="form-table" method="POST" >
+        <label for="log_output" class="output_msg">Fecha</label>
+        <label for="log_output" class="output_msg">Hora</label>
+        <label for="log_output" class="output_msg">Comentario</label>
+        <br>
+        <pre>{{ item_list }}</pre>
+    </form>
+</div>
+<script src="{{ url_for('static', filename='JavaScript/index_alert.js')}}"></script>
+{% endblock %}

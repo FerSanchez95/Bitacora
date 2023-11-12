@@ -189,7 +189,7 @@ En la tabla de la base de datos que se muestra a continuación, 'Fecha' y 'Hora'
 | 1 | 1 | 1 | 0 | *14* |
 | 1 | 1 | 1 | 1 | *15* |
 
-<sub> 1 = valor ingrasado; 0= Valor vacío; Fecha Inicio -> Param_F_i;Fecha Final -> Param_F_f; Hora Inicio -> Param_H_i; Hora Final => Param_H_f.</sub>
+1 = valor ingrasado; 0= Valor vacío; Fecha Inicio -> Param_F_i;Fecha Final -> Param_F_f; Hora Inicio -> Param_H_i; Hora Final => Param_H_f.
 
 ### Lista de condiciones
 
@@ -370,3 +370,7 @@ Se logro hacer funcionar. se agregaron los argumentos a las funciones para el ma
 ¿Los nombres de las vairiables globales van en mayúscula por una convención?
 Los nombres de las variables globales se tiene que escribir en minúsculas, si es una abreviación corta se suepde usar CapWords/CamelCase y si son varias palabras se tien que agregar un guíon bajo para separarlas. El caso va a depender siempre de la circunstancia y principalmene de la legibilidad del código.
 Las variables que se escriben con mayúsculas son las CONSTANTES que a diferrencia de las variables globales estas estan pensadas para no ser modificadas a lo laago del código. Al igual que las varaibles pueden usar guíon bajo para separar varias palabras.
+
+## Función de guardado
+
+La función de guardado dejara que la base de datos que se esta formando en el momento se pueda guaradar.

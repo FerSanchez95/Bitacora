@@ -1,0 +1,32 @@
+{% extends './layout.html' %} 
+{% block title %}Bitacora{% endblock %}
+{% block body %} 
+<div class="div_style">
+    <header>
+        <nav>
+          
+            <ul class="ul_menu">
+                <li class="li_menu"> <a href="/" class="menu_logo"><img class="menu_img" src="static/icon/libro-abierto.png" alt="Inicio"></a></li>
+                <li class="li_menu"><a href="/search"><img class="menu_img" src="static/icon/MagnifyinGlass.svg" alt="Buscar"></a></li>
+                <li class="li_menu"><a href="/open"><img class="menu_img" src="static/icon/OpenFolder.svg" alt="Abrir"></a></li>
+                <li class="li_menu"><a href="/save"><img class="menu_img" src="static/icon/Diskette.svg" alt="Guardar"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <form class="form-table" action="/search_results" method="post">
+        <table>
+            <tr>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Comentario</th>
+            </tr>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.fecha }}</td>
+                <td>{{ item.hora }}</td>
+                <td>{{ item.mensaje }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </form>
+{% endblock %}
