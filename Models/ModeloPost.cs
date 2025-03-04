@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
+using System.ComponentModel.DataAnnotations.Schema;
+using Bitacora.Models;
 
 namespace Bitacora.Models
 {
@@ -20,6 +21,10 @@ namespace Bitacora.Models
 
 		[DataType(DataType.Time)]
 		[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:hh:mm}")]
-		public TimeOnly HoraDeCreación { get;set; }
+		public TimeOnly HoraDeCreación { get; set; }
+
+		// Propiedades navegacionales y relacionales con ModeloBitacora.
+		public ModeloBitacora BitacoraAsociada { get; set; }
+		public int BitacoraId { get; set; }
 	}
 }
