@@ -14,7 +14,7 @@ namespace Bitacora
         {
 			var builder = WebApplication.CreateBuilder(args);
 
-			//Inyección de dependencias.
+			//Inserción de dependencias.
 
 			builder.Services.AddDbContext<BitacoraDb>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("BitacoraDb")));
 
