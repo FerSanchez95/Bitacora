@@ -5,6 +5,7 @@ namespace Bitacora.Models.ViewModels
 	public class RegistroViewModel
 	{
 		[Required, StringLength(25, MinimumLength = 2)]
+		[Display(Name = "Nombre de usuario")]
 		public string NombreUsuario { get; set;}
 
 		[Required, DataType(DataType.Password)]
