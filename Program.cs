@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Bitacora.Data;
 using Bitacora.Auth;
+using Bitacora.Services;
 
 
 namespace Bitacora
@@ -19,6 +20,8 @@ namespace Bitacora
 			builder.Services.AddDbContext<BitacoraDb>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("BitacoraDb")));
 
 			builder.Services.AddIdentity<AutenticacionUsuario, IdentityRole<int>>().AddEntityFrameworkStores<BitacoraDb>();
+
+			builder.Services.AddScoped<AdministrarUsuario>();
 
 			// Add services to the container.
 			builder.Services.AddControllersWithViews();
