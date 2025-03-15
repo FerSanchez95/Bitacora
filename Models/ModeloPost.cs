@@ -17,11 +17,11 @@ namespace Bitacora.Models
 
 		[DataType(DataType.Date)]
 		[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
-		public DateOnly FechaDeCreación { get; set; }
+		public DateOnly FechaDeCreacion { get; set; }
 
 		[DataType(DataType.Time)]
 		[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:hh:mm}")]
-		public TimeOnly HoraDeCreación { get; set; }
+		public TimeOnly HoraDeCreacion { get; set; }
 
 		// Propiedades navegacionales y relacionales con ModeloBitacora.
 		public ModeloBitacora BitacoraAsociada { get; set; }

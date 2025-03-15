@@ -8,6 +8,7 @@ using Bitacora.Data;
 using Bitacora.Services;
 using Microsoft.EntityFrameworkCore;
 using Bitacora.Models.ViewModels;
+using Microsoft.Extensions.Hosting;
 
 namespace Bitacora.Controllers
 {
@@ -52,44 +53,19 @@ namespace Bitacora.Controllers
         private async Task CrearBitacoras()
         {
             ModeloBitacora[] bitacoras = new ModeloBitacora[4];
-            DateTime fechaHora = DateTime.Now;
-            
-            ModeloBitacora bitacora0 = new ModeloBitacora
-            {
-                NombreDeBitacora = "Proyecto_1",
-                FechaDeCreacion = DateOnly.FromDateTime(fechaHora),
-                HoraDeCreacion = TimeOnly.FromDateTime(fechaHora),
-                UsuarioId = 1
-            };
+            DateTime fechaHoraBitacora = DateTime.Now;
+			Random rand = new Random();
 
-			ModeloBitacora bitacora1 = new ModeloBitacora
+			for (int i = 0; i < bitacoras.Length; i++)
 			{
-				NombreDeBitacora = "Proyecto_43",
-				FechaDeCreacion = DateOnly.FromDateTime(fechaHora),
-				HoraDeCreacion = TimeOnly.FromDateTime(fechaHora),
-				UsuarioId = 1
-			};
-
-			ModeloBitacora bitacora2 = new ModeloBitacora
-			{
-				NombreDeBitacora = "NuevoProyecto",
-				FechaDeCreacion = DateOnly.FromDateTime(fechaHora),
-				HoraDeCreacion = TimeOnly.FromDateTime(fechaHora),
-				UsuarioId = 2
-			};
-
-			ModeloBitacora bitacora3 = new ModeloBitacora
-			{
-				NombreDeBitacora = "Notas-Personales",
-				FechaDeCreacion = DateOnly.FromDateTime(fechaHora),
-				HoraDeCreacion = TimeOnly.FromDateTime(fechaHora),
-				UsuarioId = 2
-			};
-
-            bitacoras[0] = bitacora0;
-			bitacoras[1] = bitacora1;
-			bitacoras[2] = bitacora2;
-			bitacoras[3] = bitacora3;
+				bitacoras[i] = new ModeloBitacora
+				{
+					NombreDeBitacora = $"Bitacora_{i + 1}",
+					FechaDeCreacion = DateOnly.FromDateTime(fechaHoraBitacora.AddDays(-rand.Next(1, 30))), // Fecha aleatoria en los últimos 30 días
+					HoraDeCreacion = TimeOnly.FromDateTime(fechaHoraBitacora.AddHours(-rand.Next(1, 12))), // Hora aleatoria en las últimas 12 horas
+					UsuarioId = rand.Next(1, 3) // Bitácoras del 1 al 4
+				};
+			}
 
             foreach (var bitacora in bitacoras)
             {
@@ -110,8 +86,8 @@ namespace Bitacora.Controllers
 				posts[i] = new ModeloPost
 				{
 					Notas = $"Nota de prueba {i + 1} - Lorem ipsum dolor sit amet.",
-					FechaDeCreación = DateOnly.FromDateTime(fechaHoraPost.AddDays(-rand.Next(1, 30))), // Fecha aleatoria en los últimos 30 días
-					HoraDeCreación = TimeOnly.FromDateTime(fechaHoraPost.AddHours(-rand.Next(1, 12))), // Hora aleatoria en las últimas 12 horas
+					FechaDeCreacion = DateOnly.FromDateTime(fechaHoraPost.AddDays(-rand.Next(1, 30))), // Fecha aleatoria en los últimos 30 días
+					HoraDeCreacion = TimeOnly.FromDateTime(fechaHoraPost.AddHours(-rand.Next(1, 12))), // Hora aleatoria en las últimas 12 horas
 					BitacoraId = rand.Next(1, 5) // Bitácoras del 1 al 4
 				};
 			}
