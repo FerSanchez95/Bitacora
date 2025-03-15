@@ -35,9 +35,7 @@ namespace Bitacora.Data
 			builder.Entity<ModeloBitacora>()
 				.HasMany(b => b.PostsRealizados)
 				.WithOne(p => p.BitacoraAsociada)
-				.HasForeignKey(p => p.BitacoraId);
-			
-			
+				.HasForeignKey(p => p.BitacoraId);			
 		}
 
 		public DbSet<ModeloUsuario> Usuarios { get; set; }
