@@ -24,11 +24,20 @@ namespace Bitacora.Data
 				.WithOne(a => a.Usuario)
 				.HasForeignKey<ModeloUsuario>(u => u.AutenticacionId);
 
+			// Agrego la relación entre un usuario y sus bitacoras.
+			builder.Entity<ModeloUsuario>()
+				.HasMany(u => u.Bitacoras)
+				.WithOne(bt => bt.Propietario)
+				.HasForeignKey(bt => bt.UsuarioId)
+				.OnDelete(DeleteBehavior.Cascade);
+
 			// Agrego la relación entre una Bitacora y varios Posts.
 			builder.Entity<ModeloBitacora>()
 				.HasMany(b => b.PostsRealizados)
 				.WithOne(p => p.BitacoraAsociada)
 				.HasForeignKey(p => p.BitacoraId);
+			
+			
 		}
 
 		public DbSet<ModeloUsuario> Usuarios { get; set; }

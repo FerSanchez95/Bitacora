@@ -14,6 +14,8 @@ namespace Bitacora.Models
 
 		public int CantidadDeBitacoras { get; set; }
 
+		public List<ModeloBitacora> Bitacoras { get; set; } = new List<ModeloBitacora>();
+
 		// Propiedad navegacional y relacional de autenticación.
 		public AutenticacionUsuario PerfilDeAutenticacion { get; set; }
 		public int AutenticacionId { get; set; }

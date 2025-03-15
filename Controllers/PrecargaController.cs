@@ -46,5 +46,10 @@ namespace Bitacora.Controllers
 
 			await _administrarUsuario.PrecargaDeUsuarios(nombresDeUsuarios);
         }
+
+        private async Task CrearBitacoras()
+        {
+
+        }
     }
 }
