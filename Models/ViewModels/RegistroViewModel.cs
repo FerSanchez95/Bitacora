@@ -11,9 +11,9 @@ namespace Bitacora.Models.ViewModels
 
 		[Required, DataType(DataType.Password)]
 		[Display(Name = "Contraseña")]
-		[StringLength(30, MinimumLength = 8, ErrorMessage = Mensajes.LongitudContraseña)]
+		[StringLength(30, MinimumLength = 8, ErrorMessage = Mensajes.LongitudPassword)]
 		[RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$",
-			ErrorMessage = Mensajes.CaracteresContraseña)]
+			ErrorMessage = Mensajes.CaracteresPassword)]
 		public string Password { get; set; }
 
 		[Required(ErrorMessage = Mensajes.confirmacionRequerida), Compare("Password")]
