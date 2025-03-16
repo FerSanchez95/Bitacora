@@ -59,6 +59,7 @@ namespace Bitacora.Controllers
             return View();
         }
 
+        [HttpPost]
         public async Task<IActionResult> IniciarSesion(LoginViewModel logIn)
         {
             string? returnUrl = TempData["ReturnUrl"] as string;

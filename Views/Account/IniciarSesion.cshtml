@@ -1,0 +1,41 @@
+﻿@model Bitacora.Models.ViewModels.LoginViewModel;
+
+@{
+}
+
+<div class="container h-100">
+    <div class="d-flex justify-content-center align-items-center h-100">
+        <div class="card shadow-lg p-4" style="max-width: 400px; width: 100%; border-radius: 15px;">
+            <div class="card-body">
+                <h4 class="card-title text-center mb-4">Iniciar sesión</h4>
+                <form method="post">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        <input asp-for="NombreUsuario" class="form-control" placeholder="Correo electrónico" />
+                    </div>
+                    <span asp-validation-for="NombreUsuario" class="text-danger mb-3 d-block"></span>
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="fas fa-key"></i></span>
+                        <input asp-for="Password" type="password" class="form-control" placeholder="Contraseña" />
+                    </div>
+                    <span asp-validation-for="Password" class="text-danger mb-3 d-block"></span>
+
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                    <div class="form-check mb-3">
+                        <input asp-for="RememberMe" class="form-check-input" type="checkbox" value="true" />
+                        <label class="form-check-label" for="customControlInline">Recuérdame</label>
+                    </div>
+
+                    <div class="d-grid mb-3">
+                        <button type="submit" class="btn btn-primary btn-block">Iniciar sesión</button>
+                    </div>
+                </form>
+                <div class="text-center mt-3">
+                    <p class="mb-0">¿No tiene cuenta? <a asp-action="Registrar" class="text-primary">Regístrese</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,46 @@
+﻿@model Bitacora.Models.ViewModels.RegistroViewModel;
+@{
+	ViewData["Title"] = "Registrar Usuario";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center mb-4">Registrar Usuario</h2>
+            <form asp-action="Registrar">
+               
+                <div class="mb-3">
+                    <label asp-for="NombreUsuario" class="form-label">Correo electrónico</label>
+                    <input asp-for="NombreUsuario" class="form-control" placeholder="Ingrese su correo" />
+                    <span asp-validation-for="NombreUsuario" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Password" class="form-label">Contraseña</label>
+                    <input asp-for="Password" type="password" class="form-control" placeholder="Ingrese su contraseña" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="ConfirmedPassword" class="form-label">Contraseña</label>
+                    <input asp-for="ConfirmedPassword" type="password" class="form-control" placeholder="Ingrese su contraseña" />
+                    <span asp-validation-for="ConfirmedPassword" class="text-danger"></span>
+                </div>
+                <div class="d-grid">
+                    <input type="submit" value="Registrar" class="btn btn-primary" />
+                </div>
+            </form>
+
+            <div class="mt-3 text-center">
+                <a asp-action="Index" asp-controller="Home" class="btn btn-link">Volver al inicio</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
