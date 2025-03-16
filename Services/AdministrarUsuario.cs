@@ -6,6 +6,8 @@ using Bitacora.Models;
 using Bitacora.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Bitacora.Helpers;
+using NuGet.Packaging;
 
 namespace Bitacora.Services
 {
@@ -34,12 +36,12 @@ namespace Bitacora.Services
 					Password = "Password1!"
 				};
 
-				await this.NuevoUsuario(nuevoRegistro);
+				await this.RegistrarUsuario(nuevoRegistro);
 
 			}
 		}
 
-		public async Task NuevoUsuario(RegistroViewModel registro)
+		public async Task<(bool FueExitoso, string Mensaje)> RegistrarUsuario(RegistroViewModel registro)
 		{
 			// La validación del registro debe hacerse en una función de orden superior.
 			AutenticacionUsuario nuevoRegistro = new AutenticacionUsuario();
@@ -47,31 +49,53 @@ namespace Bitacora.Services
 
 			var resultadoAutenticacion = await _userManager.CreateAsync(nuevoRegistro, registro.Password);
 
-			if (resultadoAutenticacion.Succeeded)
+			if (!resultadoAutenticacion.Succeeded)
 			{
-				ModeloUsuario nuevoUsuario = new ModeloUsuario()
-				{
-					NombreUsuario = registro.NombreUsuario,
-					CantidadDeBitacoras = 0,
-					AutenticacionId = nuevoRegistro.Id
-				};
-
-				 await this.GuardarUsuario(nuevoUsuario);
+				return (false, Mensajes.RegistroInvalido);
 			}
+
+			ModeloUsuario nuevoUsuario = new ModeloUsuario()
+			{
+				NombreUsuario = registro.NombreUsuario,
+				CantidadDeBitacoras = 0,
+				AutenticacionId = nuevoRegistro.Id
+			};
+
+			try
+			{
+				await this.GuardarUsuario(nuevoUsuario);
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+				return (false, Mensajes.ErrorCargaBd);
+			}
+
+			return (true, Mensajes.RegistroExitoso);
+		}
+
+		public async Task<(bool FueExitoso, string Mensaje)> IniciarSesionUsuario(LoginViewModel logIn)
+		{
+			var resultadoAutenticacion = await _signInManager.PasswordSignInAsync(logIn.NombreUsuario,
+																					logIn.Password,
+																					logIn.RememberMe,
+																					false);
+			if (!resultadoAutenticacion.Succeeded)
+			{
+				return (false, Mensajes.InicioInvalido);
+			}
+
+			return (true, Mensajes.InicioExitoso);
+		}
+
+		public async Task CerrarSesionUsuario()
+		{
+			await _signInManager.SignOutAsync();
 		}
 
 		private async Task GuardarUsuario(ModeloUsuario usuario)
 		{
-			try
-			{
-				_dbContext.Usuarios.Add(usuario);
-				await _dbContext.SaveChangesAsync();
-			}
-			catch (DbUpdateConcurrencyException)
-			{
-				throw;
-			}
+			_dbContext.Usuarios.Add(usuario);
+			await _dbContext.SaveChangesAsync();
 		}
-
 	}
 }

@@ -5,6 +5,7 @@ using Bitacora.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Bitacora.Controllers
 {
@@ -33,40 +34,62 @@ namespace Bitacora.Controllers
         [HttpPost]
         public async Task<IActionResult> Registrar(RegistroViewModel registro)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                try
-                {
-					await _administrarUsuario.NuevoUsuario(registro);
-                    return RedirectToAction(nameof(Index), "Home");
-				}
-                catch (DbUpdateConcurrencyException)
-                {
-                    ModelState.AddModelError(string.Empty, "No se pudo registrar un nuevo usuario");
-                }
+                return View(registro);
             }
 
-            return View(registro);
+            var resultadoRegistro = await _administrarUsuario.RegistrarUsuario(registro);
+
+            if (!resultadoRegistro.FueExitoso)
+            {
+                ModelState.AddModelError(string.Empty, resultadoRegistro.Mensaje);
+                return View(registro);
+            }
+
+            ViewData["MensajeRegistro"] = resultadoRegistro.Mensaje;
+            return View();
+            // Acá debe redirigir a una página de resultado exitoso.
+            // La misma debe tener un botón de redirección.
         }
 
-        public IActionResult IniciarSesion()
+        public IActionResult IniciarSesion(string returnUrl)
         {
+            TempData["ReturnUrl"] = returnUrl;
             return View();
         }
 
         public async Task<IActionResult> IniciarSesion(LoginViewModel logIn)
         {
-            if (ModelState.IsValid)
+            string? returnUrl = TempData["ReturnUrl"] as string;
+
+            if (!ModelState.IsValid)
             {
-                // Lógica de acceso.
+				return View(logIn);
+			}
+
+			var resultadoInicioSesion = await _administrarUsuario.IniciarSesionUsuario(logIn);
+
+			if (!resultadoInicioSesion.FueExitoso)
+			{
+				ModelState.AddModelError(string.Empty, resultadoInicioSesion.Mensaje);
+				return View(logIn);
+			}
+            
+            TempData["InicioExitoso"] = resultadoInicioSesion.Mensaje;
+
+            if (!returnUrl.IsNullOrEmpty())
+            {
+                return Redirect(returnUrl);
             }
-            return View(logIn);
+
+            return RedirectToAction("Index", "Home");	
         }
 
         public async Task<IActionResult> CerrarSesion()
         {
-            // Lógica de cierre.
-            return View();
+            await _administrarUsuario.CerrarSesionUsuario();
+            return RedirectToAction("IniciarSesion");
         }
     }
 }
