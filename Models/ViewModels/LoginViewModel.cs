@@ -1,13 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Bitacora.Helpers;
 
 namespace Bitacora.Models.ViewModels
 {
 	public class LoginViewModel
 	{
-		[Required]
+		[Required(ErrorMessage = Mensajes.CampoRequerido)]
 		public string NombreUsuario { get; set; }
 
-		[Required, DataType(DataType.Password)]
+		[Required(ErrorMessage = Mensajes.CampoRequerido), DataType(DataType.Password)]
 		public string Password { get; set; }
 
 		[Display(Name = "Recordarme")]

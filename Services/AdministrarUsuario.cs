@@ -47,6 +47,13 @@ namespace Bitacora.Services
 			AutenticacionUsuario nuevoRegistro = new AutenticacionUsuario();
 			nuevoRegistro.UserName = registro.NombreUsuario;
 
+			var validarPassword = await _userManager.PasswordValidators.First().ValidateAsync(_userManager, null, registro.Password);
+
+			if (!validarPassword.Succeeded)
+			{
+				return (false, Mensajes.PasswordNoValido);
+			}
+
 			var resultadoAutenticacion = await _userManager.CreateAsync(nuevoRegistro, registro.Password);
 
 			if (!resultadoAutenticacion.Succeeded)
