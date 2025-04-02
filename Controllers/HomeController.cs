@@ -1,6 +1,8 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Bitacora.Models;
+using Microsoft.AspNetCore.Identity;
+using Bitacora.Auth;
 
 namespace Bitacora.Controllers;
 
@@ -15,8 +17,14 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        return View();
-    }
+        if (User.Identity is not null && !User.Identity.IsAuthenticated)
+        {
+			return RedirectToAction("IniciarSesion", "Account");
+			
+        }
+        return RedirectToAction("Index", "Bitacoras");
+
+	}
 
     public IActionResult Privacy()
     {
