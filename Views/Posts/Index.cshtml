@@ -5,62 +5,69 @@
     var bitacoraId = ViewBag.BitacoraId as int?;
 }
 
-<h1>@ViewBag.NombreBitacora</h1>
+@if (ViewBag.ErrorDeCarga == null)
+{
+    <h1>@ViewBag.NombreBitacora</h1>
 
-<table class="table table-striped table-hover tabla-redondeada">
-    <thead class="table-dark">
-        <tr>
-            <th class="col-8">Entradas</th>
-            <th class="col-1 text-center">Fecha</th>
-            <th class="col-1 text-center">Hora</th>
-            <th class="col-1 text-center"></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td class="col-8">
-                @Html.DisplayFor(modelItem => item.Notas)
-            </td>
-            <td class="col-1 text-center">
-                @Html.DisplayFor(modelItem => item.FechaDeCreacion)
-            </td>
-                <td class="col-1 text-center">
-                @Html.DisplayFor(modelItem => item.HoraDeCreacion)
-            </td>
-            <td class="col-1 text-center">
-                <div class="dropdown-center">
-                    <a class="btn btn-sm btn-outline-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                        ...
-                    </a>
-                    <ul class="dropdown-menu dr" aria-labelledby="dropdownMenuLink">
-                        <li class="text-center"><a asp-action="Edit" asp-route-id="@item.PostID" class="dropdown-item">Editar</a> </li>
-                        <li class="text-center"><a asp-action="Details" asp-route-id="@item.PostID" class="dropdown-item">Detalles</a></li>
-                        <li class="text-center"><a asp-action="Delete" asp-route-id="@item.PostID" class="dropdown-item text-danger">Eliminar</a></li>
-                    </ul>
-                </div>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
-<div class="row sticky-form">
-    <div class="col-lg-7 mx-auto">
-        <form asp-action="Create" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <div class="input-group">
-                    <input name="nota" class="form-control" placeholder="Ingresa tu nueva entrada!" autofocus required />
-                    <input type="hidden" name="id" value="@bitacoraId" />
-                    <div class="input-group-append">
-                        <input type="submit" value="Crear nota" class="btn btn-outline-primary" />
+    <table class="table table-striped table-hover tabla-redondeada">
+        <thead class="table-dark">
+            <tr>
+                <th class="col-8">Entradas</th>
+                <th class="col-1 text-center">Fecha</th>
+                <th class="col-1 text-center">Hora</th>
+                <th class="col-1 text-center"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model) {
+                <tr>
+                    <td class="col-8">
+                        @Html.DisplayFor(modelItem => item.Notas)
+                    </td>
+                    <td class="col-1 text-center">
+                        @Html.DisplayFor(modelItem => item.FechaDeCreacion)
+                    </td>
+                    <td class="col-1 text-center">
+                        @Html.DisplayFor(modelItem => item.HoraDeCreacion)
+                    </td>
+                    <td class="col-1 text-center">
+                        <div class="dropdown-center">
+                            <a class="btn btn-sm btn-outline-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                ...
+                            </a>
+                            <ul class="dropdown-menu dr" aria-labelledby="dropdownMenuLink">
+                                <li class="text-center"><a asp-action="Edit" asp-route-id="@item.PostID" class="dropdown-item">Editar</a> </li>
+                                <li class="text-center"><a asp-action="Details" asp-route-id="@item.PostID" class="dropdown-item">Detalles</a></li>
+                                <li class="text-center"><a asp-action="Delete" asp-route-id="@item.PostID" class="dropdown-item text-danger">Eliminar</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="row sticky-form">
+        <div class="col-lg-7 mx-auto">
+            <form asp-action="Create" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <input name="nota" class="form-control" placeholder="Ingresa tu nueva entrada!" autofocus required />
+                        <input type="hidden" name="id" value="@bitacoraId" />
+                        <div class="input-group-append">
+                            <input type="submit" value="Crear nota" class="btn btn-outline-primary" />
+                        </div>
                     </div>
+
                 </div>
-                
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
+}
+else
+{
+    <p>@ViewBag.ErrorDeCarga</p>
+}
 
 @section Scripts {
     @{
