@@ -29,3 +29,56 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+.tabla-redondeada {
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.tabla-redondeada thead th {
+    background-color: #343a40; /* oscuro de Bootstrap */
+    color: white;
+    border: none;
+}
+
+.tabla-redondeada tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+    .tabla-redondeada tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+.tabla-redondeada td, .tabla-redondeada th {
+    border: none;
+    padding: 0.75rem;
+}
+
+.tabla-redondeada thead th:first-child {
+    border-top-left-radius: 1rem;
+}
+
+.tabla-redondeada thead th:last-child {
+    border-top-right-radius: 1rem;
+}
+
+.tabla-redondeada tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 1rem;
+}
+
+.tabla-redondeada tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 1rem;
+}
+
+.sticky-form {
+    position: sticky;
+    bottom: 0;
+    z-index: 1000; /* asegura que quede por encima */
+    background-color: white; /* opcional, para que no se vea transparente */
+    padding: 1rem; /* opcional, para que no quede tan pegado */
+    border-bottom: 1px solid #ccc; /* opcional, estética */
+}

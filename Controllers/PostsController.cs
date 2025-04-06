@@ -24,9 +24,12 @@ namespace Bitacora.Controllers
         {
             if (id == null)
             {
-				var bitacoraDb = _context.Posts.Include(m => m.BitacoraAsociada);
-				return View(await bitacoraDb.ToListAsync());
+                ViewBag.ErrorDeCarga = "No se puede cargar la bitácora solicitada.";
+				return View();
 			}
+
+            var bitacora = await _context.Bitacoras.FirstOrDefaultAsync(b => b.BitacoraId == id);
+            ViewBag.NombreBitacora = bitacora.NombreDeBitacora;
 
             ViewBag.BitacoraId = id;
 			var postsPorBitacora = await _context.Posts.Where(p => p.BitacoraId == id).OrderBy(p => p.FechaDeCreacion).ToListAsync();
