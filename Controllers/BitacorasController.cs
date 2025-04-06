@@ -171,8 +171,10 @@ namespace Bitacora.Controllers
                 return NotFound();
             }
 
-            //var postsRealizados = await _context.Bitacoras.FirstOrDefaultAsync(b => b.BitacoraId == id);
-            var postsRealizados = await _context.Posts.Where(p => p.BitacoraId == id).ToListAsync();
+            var postsRealizados = await _context.Posts
+                .Where(p => p.BitacoraId == id)
+                .OrderBy(p => p.FechaDeCreacion)
+                .ToListAsync();
             return View(postsRealizados);
         }
 
