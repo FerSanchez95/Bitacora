@@ -1,7 +1,8 @@
-﻿@model IEnumerable<Bitacora.Models.ModeloPost>
+﻿@model IEnumerable<Bitacora.Models.ModeloPost>;
 
 @{
     ViewData["Title"] = "Index";
+    var bitacoraId = ViewBag.BitacoraId as int?;
 }
 
 <h1>Index</h1>
@@ -51,3 +52,24 @@
 }
     </tbody>
 </table>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label for="nota">Nota:</label>
+                <input name="nota" class="form-control" required />
+            </div>
+            <input type="hidden" name="id" value="@bitacoraId" />
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

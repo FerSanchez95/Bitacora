@@ -28,7 +28,8 @@ namespace Bitacora.Controllers
 				return View(await bitacoraDb.ToListAsync());
 			}
 
-            var postsPorBitacora = await _context.Posts.Where(p => p.BitacoraId == id).OrderBy(p => p.FechaDeCreacion).ToListAsync();
+            ViewBag.BitacoraId = id;
+			var postsPorBitacora = await _context.Posts.Where(p => p.BitacoraId == id).OrderBy(p => p.FechaDeCreacion).ToListAsync();
             return View(postsPorBitacora);
         }
 
@@ -52,31 +53,54 @@ namespace Bitacora.Controllers
         }
 
         // GET: Posts/Create
-        public IActionResult Create()
+        //public IActionResult Create()
+        //{
+        //    //ViewData["BitacoraId"] = new SelectList(_context.Bitacoras, "BitacoraId", "NombreDeBitacora");
+        //    return View();
+        //}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Create(String? nota, int id)
         {
-            ViewData["BitacoraId"] = new SelectList(_context.Bitacoras, "BitacoraId", "NombreDeBitacora");
-            return View();
+			if (string.IsNullOrWhiteSpace(nota)) 
+            {
+                return BadRequest("La nota no puede estar vacía.");
+			}
+
+			ModeloPost nuevaEntrada = new ModeloPost
+			{
+				Notas = nota,
+				FechaDeCreacion = DateOnly.FromDateTime(DateTime.Now),
+				HoraDeCreacion = TimeOnly.FromDateTime(DateTime.Now),
+				BitacoraId = id
+			};
+
+			_context.Add(nuevaEntrada);
+			await _context.SaveChangesAsync();
+
+			return RedirectToAction(nameof(Index), new { id });
         }
 
         // POST: Posts/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Notas,FechaDeCreacion,HoraDeCreacion,BitacoraId")] ModeloPost modeloPost)
-        {
-            // Registrar la propiedad "BitacoraAsociada" como entrada invalida. OK
-            // agregar el número ID de la bitacora antes de guardar el modelo en la DB.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("Notas,FechaDeCreacion,HoraDeCreacion,BitacoraId")] ModeloPost modeloPost)
+        //{
+        //    // Registrar la propiedad "BitacoraAsociada" como entrada invalida. OK
+        //    // agregar el número ID de la bitacora antes de guardar el modelo en la DB.
 
-            if (ModelState.IsValid)
-            {
-                _context.Add(modeloPost);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["BitacoraId"] = new SelectList(_context.Bitacoras, "BitacoraId", "NombreDeBitacora", modeloPost.BitacoraId);
-            return View(modeloPost);
-        }
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(modeloPost);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    ViewData["BitacoraId"] = new SelectList(_context.Bitacoras, "BitacoraId", "NombreDeBitacora", modeloPost.BitacoraId);
+        //    return View(modeloPost);
+        //}
 
         // GET: Posts/Edit/5
         public async Task<IActionResult> Edit(int? id)
