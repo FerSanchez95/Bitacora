@@ -20,10 +20,16 @@ namespace Bitacora.Controllers
         }
 
         // GET: Posts
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            var bitacoraDb = _context.Posts.Include(m => m.BitacoraAsociada);
-            return View(await bitacoraDb.ToListAsync());
+            if (id == null)
+            {
+				var bitacoraDb = _context.Posts.Include(m => m.BitacoraAsociada);
+				return View(await bitacoraDb.ToListAsync());
+			}
+
+            var postsPorBitacora = await _context.Posts.Where(p => p.BitacoraId == id).OrderBy(p => p.FechaDeCreacion).ToListAsync();
+            return View(postsPorBitacora);
         }
 
         // GET: Posts/Details/5
@@ -57,8 +63,11 @@ namespace Bitacora.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PostID,Notas,FechaDeCreación,HoraDeCreación,BitacoraId")] ModeloPost modeloPost)
+        public async Task<IActionResult> Create([Bind("Notas,FechaDeCreacion,HoraDeCreacion,BitacoraId")] ModeloPost modeloPost)
         {
+            // Registrar la propiedad "BitacoraAsociada" como entrada invalida. OK
+            // agregar el número ID de la bitacora antes de guardar el modelo en la DB.
+
             if (ModelState.IsValid)
             {
                 _context.Add(modeloPost);

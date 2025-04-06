@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Bitacora.Models;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace Bitacora.Models
 {
@@ -16,14 +17,16 @@ namespace Bitacora.Models
 		public string Notas { get; set; }
 
 		[DataType(DataType.Date)]
-		[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+		[DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:dd/MM/yyyy}")]
 		public DateOnly FechaDeCreacion { get; set; }
 
 		[DataType(DataType.Time)]
-		[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:hh:mm}")]
+		[DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:hh:mm}")]
 		public TimeOnly HoraDeCreacion { get; set; }
 
 		// Propiedades navegacionales y relacionales con ModeloBitacora.
+		[ValidateNever]
+		[ForeignKey("BitacoraId")]
 		public ModeloBitacora BitacoraAsociada { get; set; }
 		public int BitacoraId { get; set; }
 	}

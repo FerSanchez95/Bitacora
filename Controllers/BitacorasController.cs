@@ -163,20 +163,14 @@ namespace Bitacora.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
-        public async Task<IActionResult> PostsInput(int? id)
+        public IActionResult RedireccionAPosts(int? id) 
         {
             if (id == null || id == 0)
             {
                 return NotFound();
             }
-
-            var postsRealizados = await _context.Posts
-                .Where(p => p.BitacoraId == id)
-                .OrderBy(p => p.FechaDeCreacion)
-                .ToListAsync();
-            return View(postsRealizados);
-        }
+			return RedirectToAction("Index", "Posts", new { id });
+		}
 
         private bool ModeloBitacoraExists(int id)
         {
