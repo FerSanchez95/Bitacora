@@ -164,6 +164,18 @@ namespace Bitacora.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> PostsInput(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+
+            //var postsRealizados = await _context.Bitacoras.FirstOrDefaultAsync(b => b.BitacoraId == id);
+            var postsRealizados = await _context.Posts.Where(p => p.BitacoraId == id).ToListAsync();
+            return View(postsRealizados);
+        }
+
         private bool ModeloBitacoraExists(int id)
         {
             return _context.Bitacoras.Any(e => e.BitacoraId == id);
