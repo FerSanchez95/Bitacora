@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace Bitacora.Models
 {
@@ -22,6 +24,8 @@ namespace Bitacora.Models
 		public TimeOnly HoraDeCreacion { get; set; }
 
 		//Propiedad navegacional y relacional que vincula la bitacora con un usuario.
+		[ForeignKey("UsuarioId")]
+		[ValidateNever]
 		public ModeloUsuario Propietario { get; set; }
 
 		public int UsuarioId { get; set; }

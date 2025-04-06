@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Bitacora.Data;
 using Bitacora.Models;
+using System.Security.Claims;
 
 namespace Bitacora.Controllers
 {
@@ -22,7 +19,21 @@ namespace Bitacora.Controllers
         // GET: Bitacoras
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Bitacoras.ToListAsync());
+            string? claimUsuarioId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            int usuarioId;
+            
+            if (claimUsuarioId == null) 
+            { 
+                return NotFound(); 
+            }
+            
+            if (!int.TryParse(claimUsuarioId, out usuarioId))
+            {
+                return BadRequest(usuarioId.ToString());
+            }
+
+            var bitacorasUsuario = await _context.Bitacoras.Where(b => b.UsuarioId == usuarioId).ToListAsync();
+            return View(bitacorasUsuario);
         }
 
         // GET: Bitacoras/Details/5
@@ -54,8 +65,12 @@ namespace Bitacora.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BitacoraId,NombreDeBitacora,FechaDeCreacion,HoraDeCreacion")] ModeloBitacora modeloBitacora)
+        public async Task<IActionResult> Create([Bind("NombreDeBitacora,FechaDeCreacion,HoraDeCreacion")] ModeloBitacora modeloBitacora)
         {
+            int usuarioId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            modeloBitacora.UsuarioId = usuarioId;
+
             if (ModelState.IsValid)
             {
                 _context.Add(modeloBitacora);
