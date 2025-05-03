@@ -65,11 +65,13 @@ namespace Bitacora.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("NombreDeBitacora,FechaDeCreacion,HoraDeCreacion")] ModeloBitacora modeloBitacora)
+        public async Task<IActionResult> Create([Bind("NombreDeBitacora")] ModeloBitacora modeloBitacora)
         {
             int usuarioId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
             modeloBitacora.UsuarioId = usuarioId;
+            modeloBitacora.FechaDeCreacion = DateOnly.FromDateTime(new DateTime());
+            modeloBitacora.HoraDeCreacion = TimeOnly.FromDateTime(new DateTime()); 
 
             if (ModelState.IsValid)
             {

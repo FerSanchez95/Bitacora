@@ -82,3 +82,8 @@ body {
     padding: 1rem; /* opcional, para que no quede tan pegado */
     border-bottom: 1px solid #ccc; /* opcional, estética */
 }
+
+.btn-in-div {
+    margin: 10px 10px 5px 5px;
+    text-align: end
+}
