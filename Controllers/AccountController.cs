@@ -48,10 +48,8 @@ namespace Bitacora.Controllers
             }
 
             ViewData["MensajeRegistro"] = resultadoRegistro.Mensaje;
-            return View();
-            // Acá debe redirigir a una página de resultado exitoso.
-            // La misma debe tener un botón de redirección.
-        }
+            return RedirectToAction("IniciarSesion");
+		}
 
         public IActionResult IniciarSesion(string returnUrl)
         {
