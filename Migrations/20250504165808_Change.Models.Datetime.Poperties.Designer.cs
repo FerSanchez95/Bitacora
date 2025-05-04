@@ -4,6 +4,7 @@ using Bitacora.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bitacora.Migrations
 {
     [DbContext(typeof(BitacoraDb))]
-    partial class BitacoraDbModelSnapshot : ModelSnapshot
+    [Migration("20250504165808_Change.Models.Datetime.Poperties")]
+    partial class ChangeModelsDatetimePoperties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

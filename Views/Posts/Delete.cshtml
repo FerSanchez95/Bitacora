@@ -12,25 +12,25 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Notas)
+            Nota
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Notas)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaDeCreacion)
+            Creación
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FechaDeCreacion)
+            @Html.DisplayFor(model => model.TimeStamp)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.HoraDeCreacion)
+        <dt class="col-sm-2">
+            Ultima modificación
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.HoraDeCreacion)
+        <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.UltimaModificacion)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BitacoraAsociada)
+            Bitácora asociada
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.BitacoraAsociada.NombreDeBitacora)
@@ -39,7 +39,7 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="PostID" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+        <a asp-action="Index">Volver</a>
     </form>
 </div>

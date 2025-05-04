@@ -13,5 +13,7 @@
 		public const string CantidadDeCaracteres = "El nombre de usuario debe tener entre 2 y 25 caracteres.";
 		public const string CampoRequerido = "Debe completar el siguiente campo:";
 		public const string PasswordNoValido = "La contrseña ingresada no es valida.";
+		public const string BitacoraNoSeleccionada = "Primero debe selccionar una vitacora para ver su contenido.";
+		public const string BitacoraNoCargada = "Ocurrió un error cargando la bitacora selccionada.";
 	}
 }

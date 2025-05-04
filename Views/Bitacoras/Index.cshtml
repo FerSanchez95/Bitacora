@@ -19,8 +19,7 @@
     <thead>
         <tr>
             <th class="col-8">Nombre de la bitácora</th>
-            <th class="col-1 text-center">Fecha</th>
-            <th class="col-1 text-center">Hora</th>
+            <th class="col-1 text-center">Última modificación</th>
             <th class="col-1 text-center"></th>
         </tr>
     </thead>
@@ -33,10 +32,7 @@
                 </a>
             </td>
                 <td class="col-1 text-center">
-                @Html.DisplayFor(modelItem => item.FechaDeCreacion)
-            </td>
-                <td class="col-1 text-center">
-                @Html.DisplayFor(modelItem => item.HoraDeCreacion)
+                @Html.DisplayFor(modelItem => item.UltimaModificacion)
             </td>
             <td class="col-1 text-center">
                 <div class="dropdown-center">

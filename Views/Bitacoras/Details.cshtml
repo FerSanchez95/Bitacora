@@ -16,21 +16,21 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.NombreDeBitacora)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaDeCreacion)
+        <dt class="col-sm-2">
+            Creación
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FechaDeCreacion)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TimeStamp)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.HoraDeCreacion)
+        <dt class="col-sm-2">
+            Última modificación
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.HoraDeCreacion)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UltimaModificacion)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.BitacoraId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.BitacoraId">Editar</a> |
+    <a asp-action="Index">Volver</a>
 </div>

@@ -14,14 +14,14 @@ namespace Bitacora.Models
 		[Required]
 		[StringLength(50, MinimumLength = 2)]
 		public string NombreDeBitacora { get; set; }
-		
-		[DataType(DataType.Date)]
-		[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
-		public DateOnly FechaDeCreacion { get; set; }
 
-		[DataType(DataType.Time)]
-		[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:hh:mm}")]
-		public TimeOnly HoraDeCreacion { get; set; }
+		[DataType(DataType.DateTime)]
+		[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy HH:mm}")]
+		public DateTime TimeStamp { get; set; }
+
+		[DataType(DataType.DateTime)]
+		[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy HH:mm}")]
+		public DateTime UltimaModificacion { get; set; }
 
 		//Propiedad navegacional y relacional que vincula la bitacora con un usuario.
 		[ForeignKey("UsuarioId")]

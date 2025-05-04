@@ -7,12 +7,16 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Bitacora.Data;
 using Bitacora.Models;
+using Bitacora.Helpers;
+
+
 
 namespace Bitacora.Controllers
 {
     public class PostsController : Controller
     {
         private readonly BitacoraDb _context;
+
 
         public PostsController(BitacoraDb context)
         {
@@ -24,15 +28,22 @@ namespace Bitacora.Controllers
         {
             if (id == null)
             {
-                ViewBag.ErrorDeCarga = "No se puede cargar la bitácora solicitada.";
+                ViewBag.ErrorDeCarga = Mensajes.BitacoraNoSeleccionada;
 				return View();
 			}
 
             var bitacora = await _context.Bitacoras.FirstOrDefaultAsync(b => b.BitacoraId == id);
+            if (bitacora == null)
+            {
+                ViewBag.ErrorDeCarga = Mensajes.BitacoraNoCargada;
+            }
+
             ViewBag.NombreBitacora = bitacora.NombreDeBitacora;
 
             ViewBag.BitacoraId = id;
-			var postsPorBitacora = await _context.Posts.Where(p => p.BitacoraId == id).OrderBy(p => p.FechaDeCreacion).ToListAsync();
+			var postsPorBitacora = await _context.Posts.Where(p => p.BitacoraId == id)
+                .OrderByDescending(p => p.TimeStamp)
+                .ToListAsync();
             return View(postsPorBitacora);
         }
 
@@ -67,8 +78,8 @@ namespace Bitacora.Controllers
 			ModeloPost nuevaEntrada = new ModeloPost
 			{
 				Notas = nota,
-				FechaDeCreacion = DateOnly.FromDateTime(DateTime.Now),
-				HoraDeCreacion = TimeOnly.FromDateTime(DateTime.Now),
+                TimeStamp = DateTime.Now,
+                UltimaModificacion = DateTime.Now,
 				BitacoraId = id
 			};
 
@@ -98,12 +109,14 @@ namespace Bitacora.Controllers
         // POST: Posts/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PostID,Notas,FechaDeCreación,HoraDeCreación,BitacoraId")] ModeloPost modeloPost)
+        public async Task<IActionResult> Edit(int id, [Bind("PostID,Notas,BitacoraId")] ModeloPost modeloPost)
         {
             if (id != modeloPost.PostID)
             {
                 return NotFound();
             }
+
+            modeloPost.UltimaModificacion = DateTime.Now;
 
             if (ModelState.IsValid)
             {

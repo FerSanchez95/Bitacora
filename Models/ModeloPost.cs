@@ -15,14 +15,14 @@ namespace Bitacora.Models
 		[Required]
 		[StringLength(256, MinimumLength = 2)]
 		public string Notas { get; set; }
+		
+		[DataType(DataType.DateTime)]
+		[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy HH:mm}")]
+		public DateTime TimeStamp { get; set; }
 
-		[DataType(DataType.Date)]
-		[DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:dd/MM/yyyy}")]
-		public DateOnly FechaDeCreacion { get; set; }
-
-		[DataType(DataType.Time)]
-		[DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:hh:mm}")]
-		public TimeOnly HoraDeCreacion { get; set; }
+		[DataType(DataType.DateTime)]
+		[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy HH:mm}")]
+		public DateTime UltimaModificacion { get; set; }
 
 		// Propiedades navegacionales y relacionales con ModeloBitacora.
 		[ValidateNever]

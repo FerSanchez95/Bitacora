@@ -32,7 +32,8 @@ namespace Bitacora.Controllers
                 return BadRequest(usuarioId.ToString());
             }
 
-            var bitacorasUsuario = await _context.Bitacoras.Where(b => b.UsuarioId == usuarioId).ToListAsync();
+            var bitacorasUsuario = await _context.Bitacoras.Where(b => b.UsuarioId == usuarioId)
+                .ToListAsync();
             return View(bitacorasUsuario);
         }
 
@@ -70,8 +71,8 @@ namespace Bitacora.Controllers
             int usuarioId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
             modeloBitacora.UsuarioId = usuarioId;
-            modeloBitacora.FechaDeCreacion = DateOnly.FromDateTime(new DateTime());
-            modeloBitacora.HoraDeCreacion = TimeOnly.FromDateTime(new DateTime()); 
+            modeloBitacora.TimeStamp = DateTime.Now;
+            modeloBitacora.UltimaModificacion = DateTime.Now;
 
             if (ModelState.IsValid)
             {
@@ -103,12 +104,14 @@ namespace Bitacora.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BitacoraId,NombreDeBitacora,FechaDeCreacion,HoraDeCreacion")] ModeloBitacora modeloBitacora)
+        public async Task<IActionResult> Edit(int id, [Bind("BitacoraId,NombreDeBitacora")] ModeloBitacora modeloBitacora)
         {
             if (id != modeloBitacora.BitacoraId)
             {
                 return NotFound();
             }
+
+            modeloBitacora.UltimaModificacion = DateTime.Now;
 
             if (ModelState.IsValid)
             {

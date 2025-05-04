@@ -9,6 +9,7 @@ using Bitacora.Services;
 using Microsoft.EntityFrameworkCore;
 using Bitacora.Models.ViewModels;
 using Microsoft.Extensions.Hosting;
+using NuGet.Packaging.Signing;
 
 namespace Bitacora.Controllers
 {
@@ -58,12 +59,17 @@ namespace Bitacora.Controllers
 
 			for (int i = 0; i < bitacoras.Length; i++)
 			{
+				DateTime fechaACargar = fechaHoraBitacora.AddDays(-rand.Next(1, 30))
+						.AddHours(-rand.Next(0, 12))
+						.AddMinutes(-rand.Next(0, 60))
+						.AddSeconds(-rand.Next(0, 60));
+
 				bitacoras[i] = new ModeloBitacora
 				{
 					NombreDeBitacora = $"Bitacora_{i + 1}",
-					FechaDeCreacion = DateOnly.FromDateTime(fechaHoraBitacora.AddDays(-rand.Next(1, 30))), // Fecha aleatoria en los últimos 30 días
-					HoraDeCreacion = TimeOnly.FromDateTime(fechaHoraBitacora.AddHours(-rand.Next(1, 12))), // Hora aleatoria en las últimas 12 horas
-					UsuarioId = rand.Next(1, 3) // Bitácoras del 1 al 4
+					TimeStamp = fechaACargar,
+					UltimaModificacion = fechaACargar,
+					UsuarioId = rand.Next(1, 3) 
 				};
 			}
 
@@ -83,13 +89,18 @@ namespace Bitacora.Controllers
 
 			for (int i = 0; i < posts.Length; i++)
 			{
+                DateTime fechaACargar = fechaHoraPost.AddDays(-rand.Next(1, 30))
+                        .AddHours(-rand.Next(0, 12))
+                        .AddMinutes(-rand.Next(0, 60))
+                        .AddSeconds(-rand.Next(0, 60));
+
 				posts[i] = new ModeloPost
-				{
-					Notas = $"Nota de prueba {i + 1} - Lorem ipsum dolor sit amet.",
-					FechaDeCreacion = DateOnly.FromDateTime(fechaHoraPost.AddDays(-rand.Next(1, 30))), // Fecha aleatoria en los últimos 30 días
-					HoraDeCreacion = TimeOnly.FromDateTime(fechaHoraPost.AddHours(-rand.Next(1, 12))), // Hora aleatoria en las últimas 12 horas
-					BitacoraId = rand.Next(1, 5) // Bitácoras del 1 al 4
-				};
+                {
+                    Notas = $"Nota de prueba {i + 1} - Lorem ipsum dolor sit amet.",
+                    TimeStamp = fechaACargar,
+                    UltimaModificacion = fechaACargar,
+                    BitacoraId = rand.Next(1, 5)
+                };
 			}
 
 			foreach (var p in posts)
