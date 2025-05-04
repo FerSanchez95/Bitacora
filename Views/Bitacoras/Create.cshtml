@@ -4,33 +4,33 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1>Crear bitácora</h1>
 
-<h4>ModeloBitacora</h4>
 <hr />
-<div class="card row">
-    <div class="col-md-4 justify-content-center">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="NombreDeBitacora" class="control-label"></label>
-                <input asp-for="NombreDeBitacora" class="form-control" />
-                <span asp-validation-for="NombreDeBitacora" class="text-danger"></span>
+<div class="container h-100">
+    <div class="d-flex justify-content-center align-items-center h-100">
+        <div class="card shadow-lg p-4" style="max-width: 400px; width: 100%; border-radius: 15px;">
+            <div class="card-body">
+                <h5 class="card-title text-center mb-1">Ingresar nombre</h5>
+                <hr />
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <input asp-for="NombreDeBitacora" class="form-control input" />
+                        <span asp-validation-for="NombreDeBitacora" class="text-danger"></span>
+                    </div>
+                    <div class="form-group row justify-content-between m-2">
+                        <div class="col-4 justify-contetn-start">
+                            <input type="submit" value="Create" class="btn btn-outline-primary text-start" />
+                        </div>
+                        <div class="col-6 text-end">
+                            <a onfocus="" class="btn btn-outline-secondary" asp-action="Index">Back to List</a>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="form-group row justify-content-between m-2">
-                <div class="col-4 justify-contetn-start">
-                    <input type="submit" value="Create" class="btn btn-primary text-start" />
-                </div>
-                <div class="col-4 justify-content-end">
-                    <a class="btn btn-primary" asp-action="Index">Back to List</a>
-                </div>
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
